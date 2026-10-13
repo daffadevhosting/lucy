@@ -1,0 +1,30 @@
+# === Core ===
+pvporcupine>=3.0.2
+sounddevice>=0.5.0
+numpy>=1.26.4
+paho-mqtt>=2.1.0
+openai>=1.51.0
+python-dotenv>=1.0.1
+pyyaml>=6.0.2
+rich>=13.9.0
+loguru>=0.7.2
+
+# === TTS Options ===
+# Piper TTS (recommended - offline & fast)
+piper-tts>=1.2.0
+
+# ElevenLabs (optional - high quality online)
+elevenlabs>=1.9.0
+
+# === Local STT (choose one) ===
+# whisper.cpp Python bindings (recommended for Raspberry Pi / edge)
+# On Pi prefer install from source for best performance:
+#   pip install git+https://github.com/absadiki/pywhispercpp
+pywhispercpp>=1.5.0
+
+# Alternative: faster-whisper (CTranslate2) — often competitive
+# faster-whisper>=1.1.0
+
+# === Audio utilities ===
+scipy>=1.14.0
+soundfile>=0.12.1
