@@ -1,0 +1,164 @@
+# ============================================================
+# Lucy Device Registry
+# ============================================================
+# profile: home | vehicle
+# Setiap device punya:
+#   - room / zone   → multi-room atau zona mobil
+#   - node_id       → ID ESP32 fisik yang mengontrol device ini
+#   - commands      → perintah yang didukung
+# ============================================================
+
+profile: home   # ganti ke "vehicle" untuk mode mobil EV
+
+# ---------- HOME (Multi-room) ----------
+rooms:
+  teras:
+    name: "Teras"
+  ruang_tamu:
+    name: "Ruang Tamu"
+  dapur:
+    name: "Dapur"
+  kamar_utama:
+    name: "Kamar Utama"
+  outdoor:
+    name: "Outdoor"
+
+devices:
+  # --- Teras ---
+  lampu_teras:
+    name: "Lampu Teras"
+    type: relay
+    room: teras
+    node_id: esp32-teras-01
+    description: "Lampu di teras depan"
+    mqtt_topic: "lucy/home/devices/lampu_teras/set"
+    commands: [ON, OFF]
+
+  # --- Ruang Tamu ---
+  lampu_ruang_tamu:
+    name: "Lampu Ruang Tamu"
+    type: relay
+    room: ruang_tamu
+    node_id: esp32-ruangtamu-01
+    description: "Lampu utama ruang tamu"
+    mqtt_topic: "lucy/home/devices/lampu_ruang_tamu/set"
+    commands: [ON, OFF]
+
+  kipas_ruang_tamu:
+    name: "Kipas Ruang Tamu"
+    type: fan
+    room: ruang_tamu
+    node_id: esp32-ruangtamu-01
+    description: "Kipas angin ruang tamu"
+    mqtt_topic: "lucy/home/devices/kipas_ruang_tamu/set"
+    commands: [ON, OFF, SET_SPEED]
+    value_range: [1, 3]
+
+  # --- Dapur ---
+  lampu_dapur:
+    name: "Lampu Dapur"
+    type: relay
+    room: dapur
+    node_id: esp32-dapur-01
+    description: "Lampu dapur"
+    mqtt_topic: "lucy/home/devices/lampu_dapur/set"
+    commands: [ON, OFF]
+
+  # --- Kamar ---
+  ac_kamar:
+    name: "AC Kamar"
+    type: ac
+    room: kamar_utama
+    node_id: esp32-kamar-01
+    description: "Air Conditioner kamar utama"
+    mqtt_topic: "lucy/home/devices/ac_kamar/set"
+    commands: [ON, OFF, SET_TEMP]
+    value_range: [16, 30]
+
+  lampu_kamar:
+    name: "Lampu Kamar"
+    type: relay
+    room: kamar_utama
+    node_id: esp32-kamar-01
+    description: "Lampu kamar utama"
+    mqtt_topic: "lucy/home/devices/lampu_kamar/set"
+    commands: [ON, OFF]
+
+# ---------- VEHICLE (Mobil EV) ----------
+vehicle_zones:
+  cabin:
+    name: "Kabin"
+  exterior:
+    name: "Eksterior"
+  climate:
+    name: "Klima"
+  power:
+    name: "Powertrain"
+  doors:
+    name: "Pintu & Kunci"
+
+vehicle_devices:
+  lampu_kabin:
+    name: "Lampu Kabin"
+    type: relay
+    zone: cabin
+    node_id: esp32-cabin-01
+    description: "Lampu dalam kabin"
+    mqtt_topic: "lucy/vehicle/devices/lampu_kabin/set"
+    commands: [ON, OFF]
+
+  lampu_depan:
+    name: "Lampu Depan"
+    type: headlight
+    zone: exterior
+    node_id: esp32-exterior-01
+    description: "Headlight / lampu depan"
+    mqtt_topic: "lucy/vehicle/devices/lampu_depan/set"
+    commands: [ON, OFF, SET_BEAM]
+
+  lampu_belakang:
+    name: "Lampu Belakang"
+    type: relay
+    zone: exterior
+    node_id: esp32-exterior-01
+    description: "Tail light"
+    mqtt_topic: "lucy/vehicle/devices/lampu_belakang/set"
+    commands: [ON, OFF]
+
+  ac_mobil:
+    name: "AC Mobil"
+    type: climate
+    zone: climate
+    node_id: esp32-climate-01
+    description: "Sistem pendingin kabin"
+    mqtt_topic: "lucy/vehicle/devices/ac_mobil/set"
+    commands: [ON, OFF, SET_TEMP, SET_FAN]
+    value_range: [16, 28]
+
+  kunci_sentral:
+    name: "Kunci Sentral"
+    type: lock
+    zone: doors
+    node_id: esp32-doors-01
+    description: "Central lock"
+    mqtt_topic: "lucy/vehicle/devices/kunci_sentral/set"
+    commands: [LOCK, UNLOCK]
+
+  jendela_depan:
+    name: "Jendela Depan"
+    type: window
+    zone: doors
+    node_id: esp32-doors-01
+    description: "Jendela sisi pengemudi / penumpang"
+    mqtt_topic: "lucy/vehicle/devices/jendela_depan/set"
+    commands: [OPEN, CLOSE, SET_POSITION]
+    value_range: [0, 100]
+
+  mode_eco:
+    name: "Mode Eco"
+    type: power
+    zone: power
+    node_id: esp32-power-01
+    description: "Mode hemat baterai"
+    mqtt_topic: "lucy/vehicle/devices/mode_eco/set"
+    commands: [ON, OFF]
