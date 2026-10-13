@@ -1,0 +1,101 @@
+# ============================================================
+# Lucy Scenes & Groups
+# ============================================================
+# scene_id dipakai LLM saat user bilang "mode malam", "pulang kerja", dll.
+# group dipakai untuk "matikan semua lampu", "nyalakan semua di ruang tamu"
+# ============================================================
+
+scenes:
+  mode_malam:
+    name: "Mode Malam"
+    description: "Matikan lampu utama, nyalakan lampu kamar redup, AC 25"
+    actions:
+      - device_id: lampu_teras
+        command: OFF
+      - device_id: lampu_ruang_tamu
+        command: OFF
+      - device_id: lampu_dapur
+        command: OFF
+      - device_id: lampu_kamar
+        command: ON
+      - device_id: ac_kamar
+        command: SET_TEMP
+        value: 25
+
+  mode_pagi:
+    name: "Mode Pagi"
+    description: "Nyalakan lampu ruang tamu & dapur, matikan lampu kamar"
+    actions:
+      - device_id: lampu_ruang_tamu
+        command: ON
+      - device_id: lampu_dapur
+        command: ON
+      - device_id: lampu_kamar
+        command: OFF
+      - device_id: ac_kamar
+        command: OFF
+
+  semua_mati:
+    name: "Semua Mati"
+    description: "Matikan semua perangkat yang bisa di-OFF"
+    actions:
+      - device_id: lampu_teras
+        command: OFF
+      - device_id: lampu_ruang_tamu
+        command: OFF
+      - device_id: lampu_dapur
+        command: OFF
+      - device_id: lampu_kamar
+        command: OFF
+      - device_id: kipas_ruang_tamu
+        command: OFF
+      - device_id: ac_kamar
+        command: OFF
+
+  mode_tamu:
+    name: "Mode Tamu"
+    description: "Nyalakan lampu ruang tamu & teras"
+    actions:
+      - device_id: lampu_ruang_tamu
+        command: ON
+      - device_id: lampu_teras
+        command: ON
+
+  mode_parkir:
+    name: "Mode Parkir"
+    description: "Kunci mobil, matikan AC, matikan lampu"
+    actions:
+      - device_id: kunci_sentral
+        command: LOCK
+      - device_id: ac_mobil
+        command: OFF
+      - device_id: lampu_depan
+        command: OFF
+      - device_id: lampu_kabin
+        command: OFF
+
+  mode_perjalanan:
+    name: "Mode Perjalanan"
+    description: "Nyalakan AC, mode eco off"
+    actions:
+      - device_id: ac_mobil
+        command: ON
+      - device_id: mode_eco
+        command: OFF
+
+groups:
+  semua_lampu:
+    name: "Semua Lampu"
+    match:
+      type: [relay, light, headlight]
+
+  lampu_ruang_tamu:
+    name: "Lampu Ruang Tamu"
+    match:
+      room: [ruang_tamu]
+      type: [relay, light]
+
+  semua_ac:
+    name: "Semua AC"
+    match:
+      type: [ac, climate]
